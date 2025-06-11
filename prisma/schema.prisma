@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  librarian
+  reader
+}
+
+enum ReservationStatus {
+  Pendente
+  Cancelada
+  Expirada
+  Concluída
+}
+
+enum LoanStatus {
+  Ativo
+  Concluído
+  Atrasado
+}
+
+model Users {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String
+  name     String
+  userType UserType
+
+  reservations Reservation[]
+  loans        Loan[]
+  reviews      Review[]
+  fines        Fine[]
+}
+
+model Book {
+  id           Int           @id @default(autoincrement())
+  title        String
+  author       String
+  publisher    String
+  year         Int
+  synopsis     String
+  totalCopies  Int
+  image        String
+  categories   Category[]    @relation("BookCategories")
+  reservations Reservation[]
+  loans        Loan[]
+  reviews      Review[]
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  books Book[] @relation("BookCategories")
+}
+
+model Reservation {
+  id         Int               @id @default(autoincrement())
+  user       Users             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  book       Book              @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId     Int
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime
+  status     ReservationStatus
+
+  @@unique([userId, bookId, status])
+}
+
+model Loan {
+  id         Int        @id @default(autoincrement())
+  user       Users      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  book       Book       @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId     Int
+  createdAt  DateTime @default(now())
+  dueDate    DateTime
+  returnedAt DateTime?
+  status     LoanStatus
+
+  fines Fine[]
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  user      Users    @relation(fields: [userId], references: [id])
+  userId    Int
+  book      Book     @relation(fields: [bookId], references: [id])
+  bookId    Int
+  comment   String?
+  createdAt DateTime
+
+  @@unique([userId, bookId])
+}
+
+model Fine {
+  id        Int      @id @default(autoincrement())
+  user      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  loan      Loan     @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  loanId    Int
+  amount    Float
+  createdAt DateTime @default(now())
+}
