@@ -1,4 +1,3 @@
-import { prisma } from '../lib/prisma.js'
 import { authenticateUser } from '../services/authService.js'
 import Joi from 'joi'
 
@@ -19,7 +18,7 @@ export async function auth(fastify) {
 
         try {
             const user = await authenticateUser(email, password);
-    
+
             const token = fastify.jwt.sign(
                 {
                     userId: user.id,
@@ -29,9 +28,17 @@ export async function auth(fastify) {
                 },
                 { expiresIn: '3h' }
             );
-    
-            return reply.status(201).send({ token })
-            
+
+            return reply
+                .setCookie('token', token, {
+                    httpOnly: true,
+                    sameSite: 'none',
+                    secure: true,
+                    path: '/', 
+                })
+                .status(201)
+                .send({ message: 'Login successful' })
+
         } catch (err) {
             return reply.status(400).send({ error: err.message })
         }
