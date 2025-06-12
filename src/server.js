@@ -23,7 +23,7 @@ const fastify = Fastify({
 })
 
 fastify.register(cors, {
-    origin: 'http://localhost:3000',
+    origin: 'https://weblibrary-frontend.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 })
