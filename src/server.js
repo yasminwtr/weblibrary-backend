@@ -31,15 +31,20 @@ fastify.register(cors, {
 fastify.register(fastifyCookie);
 fastify.register(fastifyMultipart);
 fastify.register(fastifyStatic, {
-  root: path.join(__dirname, 'uploads'),
-  prefix: '/uploads/',
+    root: path.join(__dirname, 'uploads'),
+    prefix: '/uploads/',
 });
 
 fastify.register(fastifyJwt, {
     secret: 'JVtpxe7ftgeLQrsleRGY3c9YDldWFyuf',
     cookie: {
         cookieName: 'token',
-        signed: false
+        signed: false,
+        cookieOptions: {
+            httpOnly: true,
+            sameSite: 'none', 
+            secure: true  
+        }
     }
 });
 
