@@ -34,7 +34,8 @@ export async function auth(fastify) {
                     httpOnly: true,
                     sameSite: 'none',
                     secure: true,
-                    path: '/', 
+                    path: '/',
+                    maxAge: 60 * 60 * 24 * 7,
                 })
                 .status(201)
                 .send({ message: 'Login realizado com sucesso' })
