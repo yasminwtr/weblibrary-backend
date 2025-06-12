@@ -37,7 +37,7 @@ export async function auth(fastify) {
                     path: '/', 
                 })
                 .status(201)
-                .send({ message: 'Login successful' })
+                .send({ message: 'Login realizado com sucesso' })
 
         } catch (err) {
             return reply.status(400).send({ error: err.message })

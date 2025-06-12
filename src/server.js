@@ -43,7 +43,9 @@ fastify.register(fastifyJwt, {
         cookieOptions: {
             httpOnly: true,
             sameSite: 'none', 
-            secure: true  
+            secure: true,
+            path: '/',
+            maxAge: 60 * 60 * 24 * 7,
         }
     }
 });
