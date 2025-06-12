@@ -52,6 +52,6 @@ fastify.register(loanRoutes);
 fastify.register(reservationRoutes);
 fastify.register(bookReviewsRoutes);
 
-fastify.listen({ port: 3001 }).then(() => {
+fastify.listen({ port: 3001, host: '0.0.0.0' }).then(() => {
     console.log('Server is running')
 })
