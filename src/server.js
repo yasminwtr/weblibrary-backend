@@ -31,8 +31,8 @@ fastify.register(cors, {
 fastify.register(fastifyCookie);
 fastify.register(fastifyMultipart);
 fastify.register(fastifyStatic, {
-    root: path.join(__dirname, 'uploads'),
-    prefix: '/uploads/',
+  root: path.join(__dirname, '..', 'uploads'),
+  prefix: '/uploads/',
 });
 
 fastify.register(fastifyJwt, {
