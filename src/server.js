@@ -36,18 +36,7 @@ fastify.register(fastifyStatic, {
 });
 
 fastify.register(fastifyJwt, {
-    secret: 'JVtpxe7ftgeLQrsleRGY3c9YDldWFyuf',
-    cookie: {
-        cookieName: 'token',
-        signed: false,
-        cookieOptions: {
-            httpOnly: true,
-            sameSite: 'none', 
-            secure: true,
-            path: '/',
-            maxAge: 60 * 60 * 24 * 7,
-        }
-    }
+    secret: 'JVtpxe7ftgeLQrsleRGY3c9YDldWFyuf'
 });
 
 fastify.register(auth);

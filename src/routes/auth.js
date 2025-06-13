@@ -29,16 +29,7 @@ export async function auth(fastify) {
                 { expiresIn: '3h' }
             );
 
-            return reply
-                .setCookie('token', token, {
-                    httpOnly: true,
-                    sameSite: 'none',
-                    secure: true,
-                    path: '/',
-                    maxAge: 60 * 60 * 24 * 7,
-                })
-                .status(201)
-                .send({ message: 'Login realizado com sucesso' })
+            return reply.status(201).send({ token, message: 'Login realizado com sucesso' });
 
         } catch (err) {
             return reply.status(400).send({ error: err.message })
