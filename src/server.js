@@ -14,6 +14,7 @@ import { fineRoutes } from './routes/fines.js'
 import { loanRoutes } from './routes/loans.js'
 import { reservationRoutes } from './routes/reservations.js'
 import { bookReviewsRoutes } from './routes/reviews.js'
+import './services/generateFines.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
